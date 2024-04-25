@@ -1,3 +1,11 @@
 *.jpg
+*.jpeg
+*.png
 *.svg
 *.log
+Thumbs.db
+.RData
+.Rhistory
+*.Rproj
+\.Rproj.user
+ProteinInteractionPrediction/output/
