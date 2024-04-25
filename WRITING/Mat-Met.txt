@@ -1,0 +1,53 @@
+Strains
+    WT
+    DualTag
+    delta-rbp1 #2
+    delta-rbp1 #4
+    delta-rbp1 #6
+    delta-rbp1 RBP1-GFP #4
+    delta-rbp1 RBP1-GFP #11
+    delta-rbp1 RBP1-GFP #12
+
+Cultures
+    Media
+        BG11
+            +Cu/-Cu
+            liquid/agar
+        Eisenammoniumcitrat
+    Antibiotika
+        Spec
+        Gen
+        Km
+        Strep
+
+Cell lysis
+    PBS
+    protease inhibitors
+        ACA
+        Benzamidin
+        AEBSF
+    glass beads
+
+SDS-PAGE
+    10 % resolving gel
+    stacking gel
+    loading dye
+    Coomassie staining
+        Staining solution
+        Destaining solution
+        Storage solution
+
+Western blot
+    Nitrocellulose membrane
+    Towbin buffer
+    TBS-T
+    5 % milk in TBS-T
+    @GFP in TBS-T
+    @rabbit in TBS-T
+    developping kit + Maschine
+
+Machines
+    Infors-Shaker
+    DirectDetect for determining protein concentration
+    WB Developing Machine
+    Spektrometer used for Absorptionsspektrumsmessung
