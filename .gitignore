@@ -9,3 +9,4 @@ Thumbs.db
 *.Rproj
 \.Rproj.user
 ProteinInteractionPrediction/output/
+*.lnk
