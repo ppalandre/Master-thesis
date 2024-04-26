@@ -52,8 +52,8 @@ def generateTagtoGOMapping(mastertable):
     df = df[["locus_tag", "GOTerm"]]
     df = df.explode("locus_tag").explode("GOTerm")
     df = df[~df["GOTerm"].isna()]
-    df.to_csv("output_go_terms.txt", sep="\t", index=False) # Output durch pfad zur neuen datei ersetzen
-    symbols.to_csv("output_symbols.txt", sep="\t", index=False)
+    df.to_csv("output_go_terms.log", sep="\t", index=False) # Output durch pfad zur neuen datei ersetzen
+    symbols.to_csv("output_symbols.log", sep="\t", index=False)
 
 def generateTagtoGOMapping_withUTR(mastertable):
     """
@@ -91,8 +91,8 @@ def generateTagtoGOMapping_withUTR(mastertable):
     symbols = addUTRs(symbols)
     df = df.explode("locus_tag").explode("GOTerm")
     df = df[~df["GOTerm"].isna()]
-    df.to_csv("output_go_terms.txt", sep="\t", index=False) # Output durch pfad zur neuen datei ersetzen
-    symbols.to_csv("output_symbols.txt", sep="\t", index=False)
+    df.to_csv("output_go_terms.log", sep="\t", index=False) # Output durch pfad zur neuen datei ersetzen
+    symbols.to_csv("output_symbols.log", sep="\t", index=False)
 
 ##############################################################################################################
 

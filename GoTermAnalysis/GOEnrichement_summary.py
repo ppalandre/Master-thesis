@@ -38,5 +38,5 @@ for file in os.listdir(dir_name):                               # for each file,
 summary = pd.DataFrame(summary)                                 # make dataframe out of summary dict and store as file
 summary = summary.set_index("Filename")
 
-summary.to_csv("summary.txt", sep="\t")
+summary.to_csv("summary.log", sep="\t")
 print(summary)

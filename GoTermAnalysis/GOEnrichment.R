@@ -69,7 +69,7 @@ maxGSSize <- 500
 
 # Hier noch schauen dass die Tabelle richtig geladen wird
 
-defile <- "./INPUT1_DESeq2_Results/msms/msms_cold.txt" # Pfad zu deiner DESeq Tabelle
+defile <- "./INPUT1_DESeq2_Results/msms/msms_cold.log" # Pfad zu deiner DESeq Tabelle
 detable <- read.table(defile,sep="\t",header=TRUE, quote="\"")
 detable <- na.omit(detable)
 
@@ -91,7 +91,7 @@ egoBPup <- enrichGO(gene = as.character(up$"UniProt"),
                     minGSSize = minGSSize,
                     maxGSSize = maxGSSize,
                     readable = FALSE)
-summary <- data.frame(egoBPup )
+summary <- data.frame(egoBPup)
 
 # Hier wird einfach nur eine leere Tabelle gebaut falls keine GO terms enriched sind
 if (dim(summary)[1] == 0){
@@ -100,7 +100,7 @@ if (dim(summary)[1] == 0){
   colnames(df) <- x
   summary <- df
 }
-write.table(summary , file = "./OUTPUT1_GO-enrichement-RAW/msms/GOALLoutput_msms-cold_lfc0&padj0-05", row.names=FALSE, sep="\t") # Pfad  zum output file für hochregulierte gene
+write.table(summary , file = "./OUTPUT1_GO-enrichement-RAW/msms/GOALLoutput_msms-cold_lfc0&padj0-05.log", row.names=FALSE, sep="\t") # Pfad  zum output file für hochregulierte gene
 
 ## eigentlich Funktion für die GO analysis, down-regulated genes
 egoBPdown <- enrichGO(gene = as.character(down$"Gene.Name"),
@@ -124,14 +124,14 @@ if (dim(summary)[1] == 0){
   colnames(df) <- x
   summary <- df
 }
-write.table(summary , file = "./OUTPUT1_GO-enrichement-RAW/GOALLoutput_COLD_DOWN_CDS", row.names=FALSE, sep="\t") # Pfad  zum output file für runterregulierte gene
+write.table(summary , file = "./OUTPUT1_GO-enrichement-RAW/GOALLoutput_COLD_DOWN_CDS.log", row.names=FALSE, sep="\t") # Pfad  zum output file für runterregulierte gene
 
 
 ######################################################################################################################
 
 
 svg("./OUTPUT2_GO-enrichement-PLOTS/msms/GOALLbarplot_msms-cold_lfc0&padj0-05.svg")
-#jpeg("./OUTPUT2_GO-enrichement-PLOTS/msms/GOALLbarplot_msms-cold_lfc0&padj0-05.jpeg", quality = 75)
+#jpeg("./OUTPUT2_GO-enrichement-PLOTS/msms/GOALLbarplot_msms-cold_lfc0&padj0-05.jpg", quality = 75)
 barplot(summary, showCategory=50,font.size=8, title="") + viridis::scale_fill_viridis()
 
 

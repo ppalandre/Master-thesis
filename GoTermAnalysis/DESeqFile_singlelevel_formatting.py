@@ -4,7 +4,7 @@ import pandas as pd
 level = "singlelevel"
 
 # summary of length of files before and after dropping na values
-summary_file = open(f"./INPUT1_DESeq2_Results/{level}/summary_before-vs-after-na-drop.txt", "w")
+summary_file = open(f"./INPUT1_DESeq2_Results/{level}/summary_before-vs-after-na-drop.log", "w")
 
 print("Working on file: ")
 
@@ -53,9 +53,9 @@ for sheet_number in range(12):
     df_CDS_and_UTRs = df_CDS_and_UTRs[["log2FoldChange", "padj"]]
     
     # save formatted and filtered dataframes to tsv files for use in GO Enrichment R script
-    df_with_everything.to_csv(f"./INPUT1_DESeq2_Results/{level}/{file_title}_EVERYTHING.txt", sep="\t")
-    df_CDS.to_csv(f"./INPUT1_DESeq2_Results/{level}/{file_title}_CDS.txt", sep="\t")
-    df_CDS_and_UTRs.to_csv(f"./INPUT1_DESeq2_Results/{level}/{file_title}_CDS_and_UTRs.txt", sep="\t")
+    df_with_everything.to_csv(f"./INPUT1_DESeq2_Results/{level}/{file_title}_EVERYTHING.log", sep="\t")
+    df_CDS.to_csv(f"./INPUT1_DESeq2_Results/{level}/{file_title}_CDS.log", sep="\t")
+    df_CDS_and_UTRs.to_csv(f"./INPUT1_DESeq2_Results/{level}/{file_title}_CDS_and_UTRs.log", sep="\t")
 
 
     summary_file.write(f"{file_title}\n")

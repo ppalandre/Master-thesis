@@ -85,7 +85,7 @@ MSMSdf_cold_GOinput = MSFileFormatting(MSMSdf_standard)[1]
 #MSMSdf_cold_GOinput.to_csv("msms_cold.txt", sep="\t")
 
 # replace UniProt IDs by corresponding gene locus tag
-mapping_df = pd.read_csv("../../INPUT2_GO-mapping/output_symbols_PHILLIPP.txt", sep="\t")
+mapping_df = pd.read_csv("../../INPUT2_GO-mapping/output_symbols_PHILLIPP.log", sep="\t")
 #mapping_df = mapping_df.dropna()
 mapping_df["UniProt"] = mapping_df["UniProt"].str.split(";")
 mapping_df = mapping_df.explode("UniProt")
@@ -100,4 +100,4 @@ for i in MSMSdf_cold_GOinput["Uniprot IDs"]:
 
 MSMSdf_cold_GOinput = MSMSdf_cold_GOinput.sort_values("log2FoldChange", ascending=False)
 
-MSMSdf_cold_GOinput.to_csv("test.txt", sep="\t")
+MSMSdf_cold_GOinput.to_csv("test.log", sep="\t")

@@ -117,8 +117,8 @@ def GrowthCurveTechRep(df: pd.DataFrame, samples: list[str], NbOfReps: int, tag:
 os.chdir("./growth curves")
 
 ## load data for biological replicates
-filename20 = "A750_20degrees-75uE-KW8.txt"
-filename15 = "A750_15degrees-140uE-KW9.txt"
+filename20 = "A750_20degrees-75uE-KW8.csv"
+filename15 = "A750_15degrees-140uE-KW9.csv"
 
 for filename in [filename20, filename15]:
     df = pd.read_csv(filename, sep="\t")
@@ -131,8 +131,8 @@ for filename in [filename20, filename15]:
     plt.close()
 
 ## load data for technical replicates
-filenameTechRep_GFP = "A750_20degrees-75uE-KW11.txt"
-filenameTechRep_FLAG = "A750_20degrees-75uE-FLAG-KW16.txt"
+filenameTechRep_GFP = "A750_20degrees-75uE-KW11.csv"
+filenameTechRep_FLAG = "A750_20degrees-75uE-FLAG-KW16.csv"
 df_GFP = pd.read_csv(filenameTechRep_GFP, sep="\t")
 df_FLAG = pd.read_csv(filenameTechRep_FLAG, sep="\t")
 

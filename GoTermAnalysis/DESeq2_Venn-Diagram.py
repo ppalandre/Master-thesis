@@ -50,14 +50,14 @@ def dfCompare(df1: pd.DataFrame, df2: pd.DataFrame, on: str="Gene Name") -> tupl
 os.chdir("./summary-table")
 
 ## input files
-ColdEnriched_Rbp1_file = "../INPUT1_DESeq2_Results/singlelevel/Rbp1-input-cold-vs-std_EVERYTHING.txt"
-ColdEnriched_GFP_file = "../INPUT1_DESeq2_Results/singlelevel/GFP-input-cold-vs-std_EVERYTHING.txt"
-Rbp1Bound_file = "../INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_EVERYTHING.txt"
+ColdEnriched_Rbp1_file = "../INPUT1_DESeq2_Results/singlelevel/Rbp1-input-cold-vs-std_EVERYTHING.log"
+ColdEnriched_GFP_file = "../INPUT1_DESeq2_Results/singlelevel/GFP-input-cold-vs-std_EVERYTHING.log"
+Rbp1Bound_file = "../INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_EVERYTHING.log"
 
 input_files = [ColdEnriched_Rbp1_file, ColdEnriched_GFP_file, Rbp1Bound_file]
 
 ## file to store the results
-summary_file = open(f"summary_VennDiagram_LfcRbp1is-25_LfcGfpis-01.txt", "w")
+summary_file = open(f"summary_VennDiagram_LfcRbp1is-25_LfcGfpis-25.log", "w")
 
 ## dfs we are working with
 Standard_Rbp1_df = Filtering(ColdEnriched_Rbp1_file, LfcCutoff=2.5)
@@ -88,8 +88,8 @@ summary_file.write(f"Number of genes common to {ColdEnriched_Rbp1_file.split("/"
 
 ## genes enriched in Rbp1 and GFP (control) samples under cold conditions
 genes_in_Rbp1_and_GFP_COLD = dfCompare(ColdEnriched_Rbp1_df, ColdEnriched_GFP_df)
-df = ColdEnriched_Rbp1_df
-df[df["Gene Name"].isin(genes_in_Rbp1_and_GFP_COLD[1])].to_csv("genes_in_Rbp1_and_GFP.txt", sep="\t") # list of genes in Rbp1 and GFP
+#df = ColdEnriched_Rbp1_df
+#df[df["Gene Name"].isin(genes_in_Rbp1_and_GFP_COLD[1])].to_csv("genes_in_Rbp1_and_GFP.log", sep="\t") # list of genes in Rbp1 and GFP
 summary_file.write(f"Number of genes common to {ColdEnriched_Rbp1_file.split("/")[-1]} and {ColdEnriched_GFP_file.split("/")[-1]} in cold conditions: {genes_in_Rbp1_and_GFP_COLD[0]}\n")
 
 ## genes enriched in cold conditions and bound to Rbp1
@@ -110,7 +110,7 @@ c_ColdBound = venn2_circles(subsets = (cold_enriched_genes_Rbp1, Rbp1_bound_gene
                             color='black',
                             normalize_to=2,
                             alpha=0.5)
-plt.savefig("VennDiagram_ColdBound.png")
+plt.savefig("VennDiagram_ColdBound.jpg")
 plt.close()
 
 v_Rbp1GFP_COLD = venn2(subsets = (cold_enriched_genes_Rbp1, cold_enriched_genes_GFP, genes_in_Rbp1_and_GFP_COLD[0]), 
@@ -124,7 +124,7 @@ c_Rbp1GFP_COLD = venn2_circles(subsets = (cold_enriched_genes_Rbp1, cold_enriche
                           color='black',
                           normalize_to=2,
                           alpha=0.5)
-plt.savefig("VennDiagram_Rbp1GFP_COLD.png")
+plt.savefig("VennDiagram_Rbp1GFP_COLD.jpg")
 plt.close()
 
 v_Rbp1GFP_STD = venn2(subsets = (standard_genes_Rbp1, standard_genes_GFP, genes_in_Rbp1_and_GFP_STD[0]), 
@@ -138,5 +138,5 @@ c_Rbp1GFP_STD = venn2_circles(subsets = (standard_genes_Rbp1, standard_genes_GFP
                           color='black',
                           normalize_to=2,
                           alpha=0.5)
-plt.savefig("VennDiagram_Rbp1GFP_STD.png")
+plt.savefig("VennDiagram_Rbp1GFP_STD.jpg")
 plt.close()

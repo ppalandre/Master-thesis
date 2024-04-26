@@ -7,8 +7,8 @@ import pandas as pd
 
 # load, format and filter relevant files: annotation file of all Synechocystis sp. strain SCC 6803 transcripts and their sequence identifyer, and DESeq2 results
 annotation_file = "./summary-table/20210217_syne_onlyUnique_withFeat.gff3"
-DESeq2_standard = "./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_EVERYTHING.txt"
-DESeq2_cold = "./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_EVERYTHING.txt"
+DESeq2_standard = "./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_EVERYTHING.log"
+DESeq2_cold = "./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_EVERYTHING.log"
 
 ## format annotation file so it has the same sequence identifyer names as the DESeq2 result files
 formatted_file = pd.read_csv(annotation_file, sep="\t")["Sequence Identifyer"]
@@ -29,13 +29,13 @@ padjCutoff = 0.01
 
 filtered_standard = pd.read_csv(DESeq2_standard, sep="\t") # standard conditions
 filtered_standard = filtered_standard.loc[(filtered_standard["log2FoldChange"] > LfcCutoff) & (filtered_standard['padj'] <= padjCutoff)]
-filtered_standard.to_csv("./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_FILTERED.txt", sep="\t")
-filtered_standard = "./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_FILTERED.txt"
+filtered_standard.to_csv("./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_FILTERED.log", sep="\t")
+filtered_standard = "./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_FILTERED.log"
 
 filtered_cold = pd.read_csv(DESeq2_cold, sep="\t") # cold conditions
 filtered_cold = filtered_cold.loc[(filtered_cold["log2FoldChange"] > LfcCutoff) & (filtered_cold['padj'] <= padjCutoff)]
-filtered_cold.to_csv("./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_FILTERED.txt", sep="\t")
-filtered_cold = "./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_FILTERED.txt"
+filtered_cold.to_csv("./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_FILTERED.log", sep="\t")
+filtered_cold = "./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_FILTERED.log"
 
 ## final files
 all_input_files = [annotation_file, filtered_standard, filtered_cold]
@@ -66,8 +66,8 @@ for file in all_input_files:
 # format and save the final dataframe
 ## rename columns (current names are the filenames)
 summary["Total"] = summary.pop("./summary-table/20210217_syne_onlyUnique_withFeat_FORMATTED.gff3")
-summary["Standard"] = summary.pop("./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_FILTERED.txt")
-summary["Cold"] = summary.pop("./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_FILTERED.txt")
+summary["Standard"] = summary.pop("./INPUT1_DESeq2_Results/multilevel/stdGFPinvsout-Rbp1invsout_FILTERED.log")
+summary["Cold"] = summary.pop("./INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_FILTERED.log")
 ## transform the set back to a list is needed in order to make a dataframe out of the dict
 summary["Sequence Identifyer"] = list(summary["Sequence Identifyer"])
 ## make and format dataframe
@@ -76,7 +76,7 @@ summary = summary.replace({"rubbish": "other"})
 summary = summary.set_index("Sequence Identifyer")
 summary = summary.sort_values('Total', ascending=False)
 ## save dataframe
-summary.to_csv("./summary-table/summary-table.txt", sep="\t")
+summary.to_csv("./summary-table/summary-table.log", sep="\t")
 
 
 #print(summary)
@@ -115,6 +115,6 @@ percent_summary = percent_summary.replace({"rubbish": "other"})
 percent_summary = percent_summary.set_index("Sequence Identifyer")
 percent_summary = percent_summary.sort_values('Total (nb)', ascending=False)
 ## save dataframe
-percent_summary.to_csv("./summary-table/sPercentSummary-table.txt", sep="\t")
+percent_summary.to_csv("./summary-table/sPercentSummary-table.log", sep="\t")
 
 print(percent_summary)
