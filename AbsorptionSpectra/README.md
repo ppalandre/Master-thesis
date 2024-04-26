@@ -4,3 +4,5 @@ I performed UV vis absorption spectra to investigate physiological effects of Rb
 In this folder are all the absorption measurements as well as the Python scripts used to normalize the data and plot the absorption spectra and growth curves.
 
 **add aims, methods(maybe add protocols?) (and maybe also conclusions?)**
+
+**add Python environment information**

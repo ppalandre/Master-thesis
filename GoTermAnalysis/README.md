@@ -6,3 +6,5 @@ Here are the DESeq2 files as well as all scripts used for the in depth analysis.
 **add table to summarize what each skript does**
 
 **add aims, methods (and maybe also conclusions?)**
+
+**add Python environment information**
