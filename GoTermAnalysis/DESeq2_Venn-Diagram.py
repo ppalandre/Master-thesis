@@ -52,19 +52,31 @@ os.chdir("./summary-table")
 ## input files
 ColdEnriched_Rbp1_file = "../INPUT1_DESeq2_Results/singlelevel/Rbp1-input-cold-vs-std_EVERYTHING.log"
 ColdEnriched_GFP_file = "../INPUT1_DESeq2_Results/singlelevel/GFP-input-cold-vs-std_EVERYTHING.log"
-Rbp1Bound_file = "../INPUT1_DESeq2_Results/multilevel/coldGFPinvsout-Rbp1invsout_EVERYTHING.log"
+Rbp1Bound_file = "../INPUT1_DESeq2_Results/multilevel/cold GFP invsout - Rbp1 invsout_EVERYTHING.log"
 
 input_files = [ColdEnriched_Rbp1_file, ColdEnriched_GFP_file, Rbp1Bound_file]
 
-## file to store the results
-summary_file = open(f"summary_VennDiagram_LfcRbp1is-25_LfcGfpis-25.log", "w")
-
 ## dfs we are working with
-Standard_Rbp1_df = Filtering(ColdEnriched_Rbp1_file, LfcCutoff=2.5)
-Standard_GFP_df = Filtering(ColdEnriched_GFP_file, LfcCutoff=2.5)
-ColdEnriched_Rbp1_df = Filtering(ColdEnriched_Rbp1_file, LfcCutoff=-2.5)
-ColdEnriched_GFP_df = Filtering(ColdEnriched_GFP_file, LfcCutoff=-2.5)
-Rbp1Bound_df = Filtering(Rbp1Bound_file, LfcCutoff=2.5)
+LfcRbp1 = 2.5
+LfcGFP = 2.5
+LfcMultilevel = 2.5
+padjRbp1 = 0.0000000001
+padjGFP = 0.001
+padjMultilevel = 0.0000000001
+
+Standard_Rbp1_df = Filtering(ColdEnriched_Rbp1_file, LfcCutoff=LfcRbp1, padjCutoff=padjRbp1)
+Standard_GFP_df = Filtering(ColdEnriched_GFP_file, LfcCutoff=LfcGFP, padjCutoff=padjGFP)
+ColdEnriched_Rbp1_df = Filtering(ColdEnriched_Rbp1_file, LfcCutoff=-LfcRbp1, padjCutoff=padjRbp1)
+ColdEnriched_GFP_df = Filtering(ColdEnriched_GFP_file, LfcCutoff=-LfcGFP, padjCutoff=padjGFP)
+Rbp1Bound_df = Filtering(Rbp1Bound_file, LfcCutoff=LfcMultilevel, padjCutoff=padjMultilevel)
+
+## directory and file to store the results in
+dirname = f"./padjRbp1-{padjRbp1}_padjGFP-{padjGFP}_padjMulti-{padjMultilevel}"
+if os.path.exists(dirname):
+    pass
+else:
+    os.mkdir(dirname)
+summary_file = open(f"{dirname}/summary_VennDiagram_LfcRbp1-{LfcRbp1}_LfcGFP-{LfcGFP}_LfcMulti-{LfcMultilevel}_padjRbp1-{padjRbp1}_padjGFP-{padjGFP}_padjMulti-{padjMultilevel}.log", "w")
 
 ## enrichement in each file
 standard_genes_Rbp1 = EnrichementCount(Standard_Rbp1_df)
@@ -99,6 +111,7 @@ summary_file.write(f"Number of genes common to {ColdEnriched_Rbp1_file.split("/"
 summary_file.close()
 
 ## Venn diagrams
+plt.figure(figsize=(12,6))
 v_ColdBound = venn2(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1_and_Rbp1Bound[0], Rbp1_bound_genes-genes_in_Rbp1_and_Rbp1Bound[0], genes_in_Rbp1_and_Rbp1Bound[0]), 
                     set_labels = ('Upregulated in cold', 'Enriched in Rbp1 pulldown'),
                     set_colors=('b','r'),
@@ -110,9 +123,11 @@ c_ColdBound = venn2_circles(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1_an
                             color='black',
                             normalize_to=2,
                             alpha=0.5)
-plt.savefig("VennDiagram_ColdBound.jpg")
+plt.title(f"Genes enriched in cold bound to Rbp1 with LfcRbp1={LfcRbp1}, LfcGFP={LfcGFP}, LfcMulti={LfcMultilevel}, padjRbp1={padjRbp1}, padjGFP={padjGFP}, padjMulti={padjMultilevel}", fontsize=12)
+plt.savefig(f"{dirname}/VennDiagram_ColdBound_LfcRbp1-{LfcRbp1}_LfcGFP-{LfcGFP}_LfcMulti-{LfcMultilevel}_padjRbp1-{padjRbp1}_padjGFP-{padjGFP}_padjMulti-{padjMultilevel}.jpg")
 plt.close()
 
+plt.figure(figsize=(12,6))
 v_Rbp1GFP_COLD = venn2(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1_and_GFP_COLD[0], cold_enriched_genes_GFP-genes_in_Rbp1_and_GFP_COLD[0], genes_in_Rbp1_and_GFP_COLD[0]), 
                   set_labels = ('Upregulated in cold (Rbp1 samples)', 'Upregulated in cold (GFP controls)'),
                   set_colors=('b','g'),
@@ -124,9 +139,11 @@ c_Rbp1GFP_COLD = venn2_circles(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1
                           color='black',
                           normalize_to=2,
                           alpha=0.5)
-plt.savefig("VennDiagram_Rbp1GFP_COLD.jpg")
+plt.title(f"Genes enriched in cold inputs with LfcRbp1={LfcRbp1}, LfcGFP={LfcGFP}, LfcMulti={LfcMultilevel}, padjRbp1={padjRbp1}, padjGFP={padjGFP}, padjMulti={padjMultilevel}", fontsize=12)
+plt.savefig(f"{dirname}/VennDiagram_Rbp1GFP_COLD_LfcRbp1-{LfcRbp1}_LfcGFP-{LfcGFP}_LfcMulti-{LfcMultilevel}_padjRbp1-{padjRbp1}_padjGFP-{padjGFP}_padjMulti-{padjMultilevel}.jpg")
 plt.close()
 
+plt.figure(figsize=(12,6))
 v_Rbp1GFP_STD = venn2(subsets = (standard_genes_Rbp1-genes_in_Rbp1_and_GFP_STD[0], standard_genes_GFP-genes_in_Rbp1_and_GFP_STD[0], genes_in_Rbp1_and_GFP_STD[0]), 
                   set_labels = ('Standard transcriptome (Rbp1 samples)', 'Standard transcriptome (GFP controls)'),
                   set_colors=('b','g'),
@@ -138,5 +155,6 @@ c_Rbp1GFP_STD = venn2_circles(subsets = (standard_genes_Rbp1-genes_in_Rbp1_and_G
                           color='black',
                           normalize_to=2,
                           alpha=0.5)
-plt.savefig("VennDiagram_Rbp1GFP_STD.jpg")
+plt.title(f"Genes enriched in standard inputs with LfcRbp1={LfcRbp1}, LfcGFP={LfcGFP}, LfcMulti={LfcMultilevel}, padjRbp1={padjRbp1}, padjGFP={padjGFP}, padjMulti={padjMultilevel}", fontsize=12)
+plt.savefig(f"{dirname}/VennDiagram_Rbp1GFP_STD_LfcRbp1-{LfcRbp1}_LfcGFP-{LfcGFP}_LfcMulti-{LfcMultilevel}_padjRbp1-{padjRbp1}_padjGFP-{padjGFP}_padjMulti-{padjMultilevel}.jpg")
 plt.close()
