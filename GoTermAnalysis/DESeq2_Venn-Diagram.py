@@ -99,12 +99,12 @@ summary_file.write(f"Number of genes common to {ColdEnriched_Rbp1_file.split("/"
 summary_file.close()
 
 ## Venn diagrams
-v_ColdBound = venn2(subsets = (cold_enriched_genes_Rbp1, Rbp1_bound_genes, genes_in_Rbp1_and_Rbp1Bound[0]), 
+v_ColdBound = venn2(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1_and_Rbp1Bound[0], Rbp1_bound_genes-genes_in_Rbp1_and_Rbp1Bound[0], genes_in_Rbp1_and_Rbp1Bound[0]), 
                     set_labels = ('Upregulated in cold', 'Enriched in Rbp1 pulldown'),
                     set_colors=('b','r'),
                     normalize_to=2,
                     alpha=0.5)
-c_ColdBound = venn2_circles(subsets = (cold_enriched_genes_Rbp1, Rbp1_bound_genes, genes_in_Rbp1_and_Rbp1Bound[0]),
+c_ColdBound = venn2_circles(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1_and_Rbp1Bound[0], Rbp1_bound_genes-genes_in_Rbp1_and_Rbp1Bound[0], genes_in_Rbp1_and_Rbp1Bound[0]),
                             linestyle='dashed', 
                             linewidth=1, 
                             color='black',
@@ -113,12 +113,12 @@ c_ColdBound = venn2_circles(subsets = (cold_enriched_genes_Rbp1, Rbp1_bound_gene
 plt.savefig("VennDiagram_ColdBound.jpg")
 plt.close()
 
-v_Rbp1GFP_COLD = venn2(subsets = (cold_enriched_genes_Rbp1, cold_enriched_genes_GFP, genes_in_Rbp1_and_GFP_COLD[0]), 
+v_Rbp1GFP_COLD = venn2(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1_and_GFP_COLD[0], cold_enriched_genes_GFP-genes_in_Rbp1_and_GFP_COLD[0], genes_in_Rbp1_and_GFP_COLD[0]), 
                   set_labels = ('Upregulated in cold (Rbp1 samples)', 'Upregulated in cold (GFP controls)'),
                   set_colors=('b','g'),
                   normalize_to=2,
                   alpha=0.5)
-c_Rbp1GFP_COLD = venn2_circles(subsets = (cold_enriched_genes_Rbp1, cold_enriched_genes_GFP, genes_in_Rbp1_and_GFP_COLD[0]),
+c_Rbp1GFP_COLD = venn2_circles(subsets = (cold_enriched_genes_Rbp1-genes_in_Rbp1_and_GFP_COLD[0], cold_enriched_genes_GFP-genes_in_Rbp1_and_GFP_COLD[0], genes_in_Rbp1_and_GFP_COLD[0]),
                           linestyle='dashed', 
                           linewidth=1, 
                           color='black',
@@ -127,12 +127,12 @@ c_Rbp1GFP_COLD = venn2_circles(subsets = (cold_enriched_genes_Rbp1, cold_enriche
 plt.savefig("VennDiagram_Rbp1GFP_COLD.jpg")
 plt.close()
 
-v_Rbp1GFP_STD = venn2(subsets = (standard_genes_Rbp1, standard_genes_GFP, genes_in_Rbp1_and_GFP_STD[0]), 
+v_Rbp1GFP_STD = venn2(subsets = (standard_genes_Rbp1-genes_in_Rbp1_and_GFP_STD[0], standard_genes_GFP-genes_in_Rbp1_and_GFP_STD[0], genes_in_Rbp1_and_GFP_STD[0]), 
                   set_labels = ('Standard transcriptome (Rbp1 samples)', 'Standard transcriptome (GFP controls)'),
                   set_colors=('b','g'),
                   normalize_to=2,
                   alpha=0.5)
-c_Rbp1GFP_STD = venn2_circles(subsets = (standard_genes_Rbp1, standard_genes_GFP, genes_in_Rbp1_and_GFP_STD[0]),
+c_Rbp1GFP_STD = venn2_circles(subsets = (standard_genes_Rbp1-genes_in_Rbp1_and_GFP_STD[0], standard_genes_GFP-genes_in_Rbp1_and_GFP_STD[0], genes_in_Rbp1_and_GFP_STD[0]),
                           linestyle='dashed', 
                           linewidth=1, 
                           color='black',
