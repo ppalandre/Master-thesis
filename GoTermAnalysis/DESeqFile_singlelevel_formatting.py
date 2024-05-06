@@ -1,22 +1,28 @@
 import pandas as pd
 
 # singlelevel or multilevel
-level = "singlelevel"
+#level = "singlelevel"
+level = "multilevel"
+#file  = "./INPUT1_DESeq2_Results/singlelevel/DESeq2_new_summary.xlsx"
+file = "./INPUT1_DESeq2_Results/multilevel/DESeq_multilevel_2.xlsx"
+
+# set base mean cutoff
+BaseMeanCutoff = 10
 
 # summary of length of files before and after dropping na values
 summary_file = open(f"./INPUT1_DESeq2_Results/{level}/summary_before-vs-after-na-drop.log", "w")
 
 print("Working on file: ")
 
-for sheet_number in range(12):
+for sheet_number in range(3):
     # read each sheet of the data (range of the number of sheets in the Excel file)
-    df_raw = pd.read_excel(f"./INPUT1_DESeq2_Results/{level}/DESeq2_new_summary.xlsx", sheet_name=sheet_number) 
+    df_raw = pd.read_excel(file, sheet_name=sheet_number) 
     file_title = list(df_raw)[0].split("Name ")[1]                               # file title is the sheet name
     print(file_title)                                                            # makes sure each sheet gets read once
 
     # filter the dataframe
-    columns_to_keep = [list(df_raw)[0], list(df_raw)[2], list(df_raw)[6]] 
-    df_working = df_raw[columns_to_keep]                                         # keep only the columns needed for GO terms analysis: Gene Name, Log2FoldChange and padj    
+    columns_to_keep = [list(df_raw)[0], list(df_raw)[1], list(df_raw)[2], list(df_raw)[6]]        # keep only the columns needed for filtering: BaseMean Gene Name, Log2FoldChange and padj
+    df_working = df_raw[columns_to_keep]                                             
     #df_working = df_working.dropna()                                            # get rid of missing values (not necessary, R script also checks for missing values)                                                            
     """
     Note on p-values set to NA: some values in the results table can be set to NA for one of the following reasons:
@@ -29,11 +35,12 @@ for sheet_number in range(12):
     """
 
     # format the dataframe
-    df_working = df_working.rename({list(df_working)[1]: "log2FoldChange", 
-                                    list(df_working)[2]: "padj"}, axis=1)        # gets rid of the "" in the column names
+    df_working = df_working.rename({list(df_working)[1]: "BaseMean", 
+                                    list(df_working)[2]: "log2FoldChange",
+                                    list(df_working)[3]: "padj"}, axis=1)        # gets rid of the "" in the column names
     df_working = df_working.rename({list(df_working)[0]: "Gene Name"}, axis=1)   # makes column name readable by GO Enrichment R script
-    #for gene_name in df_working["Gene Name"]:
-    #    df_working = df_working.replace(gene_name, gene_name.split("\"")[1])    # gets rid of the "" in the gene names          
+    for gene_name in df_working["Gene Name"]:
+        df_working = df_working.replace(gene_name, gene_name.split("\"")[1])    # gets rid of the "" in the gene names          
     for gene_name in df_working["Gene Name"]:
         if "-" not in gene_name:
             df_working = df_working.replace(gene_name, "other-"+gene_name)     # adds prefix to all entries that do not have one
@@ -43,6 +50,7 @@ for sheet_number in range(12):
         df_working = df_working.replace(gene_name, gene_name.split("-")[0])      # gets rid of further suffixes to isolate gene name
     df_working = df_working.set_index("Gene Name")
     df_working = df_working.dropna() 
+    df_working = df_working.loc[df_working["BaseMean"] >= BaseMeanCutoff]        # remove genes with too small base mean to only consider genes with high enough expression
 
     # last filtering to get rid of the "Sequence Identifyer" column and optionally further filter the dataframe
     df_with_everything = df_working[["log2FoldChange", "padj"]]
