@@ -53,8 +53,8 @@ for sheet_number in range(3):
     df_working = df_working.loc[df_working["BaseMean"] >= BaseMeanCutoff]        # remove genes with too small base mean to only consider genes with high enough expression
 
     # last filtering to get rid of the "Sequence Identifyer" column and optionally further filter the dataframe
-    df_with_everything = df_working[["log2FoldChange", "padj"]]
     df_with_everything = df_working
+    df_with_everything = df_working[["log2FoldChange", "padj"]]
     df_CDS = df_working[df_working["Sequence Identifyer"] == "CDS"]
     df_CDS = df_CDS[["log2FoldChange", "padj"]]
     df_CDS_and_UTRs = df_working[(df_working["Sequence Identifyer"] == "CDS") | (df_working["Sequence Identifyer"] == "5'UTR") | (df_working["Sequence Identifyer"] == "3'UTR")]
