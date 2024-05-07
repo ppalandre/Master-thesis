@@ -59,7 +59,7 @@ chlorophyll_peaks = pd.DataFrame.from_dict(chlorophyll_peaks)
 chlorophyll_peaks = abs.Statistics(chlorophyll_peaks, samps, NbOfReps)
 samps = ["WT", "delta-rbp1 #4", "RBP1-GFP #4"] # we don't want to plot all samples for GFP
 fig, ax = abs.GrowthCurveTechRep(chlorophyll_peaks, samps, samples.samples)
-ax.set_ylabel("Chloropyll a (µM/OD)")
+ax.set_ylabel("Chlorophyll a (µM/OD)")
 ax.set_ylim(0,50)
 ax.legend(loc="upper right")
 fig.savefig("Absolute chlorophyll a content.jpg", dpi=300)
