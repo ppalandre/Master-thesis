@@ -50,7 +50,7 @@ def Normalize(Abs, Spectrum, Sample, norm="750"):
     else:     
         Abs_750nm = Spectrum[Sample][750.0]                              # get absorbance at 750 nm for the sample
         Abs_phycobillisome = Spectrum[Sample].loc[600.0:650.0].max()     # get maximum of the phycobillisome peak (600-650 nm)
-        Abs_custom = Spectrum[Sample].filter(items=[751.0], axis=0)
+        Abs_custom = Spectrum[Sample][751.0] 
 
         if norm=="750":
             return (Abs - Abs_750nm) / (Abs_750nm)                          # normalization over 750 nm peak (quantity of cells)
@@ -71,7 +71,8 @@ def Statistics(df, samples: list[str], NbOfReps: int=3):
     for sample in samples:
             triplicates = []
             for rep in range(NbOfReps):
-                triplicates.append(f"{sample}_{rep+1}_Normalized")
+                #triplicates.append(f"{sample}_{rep+1}_Normalized") # for absorption spectra
+                triplicates.append(f"{sample}_{rep+1}")             # for absolute chlorophyll quantities
             df_new = df[triplicates]
             df[f"{sample}_mean"] = df_new.apply(np.mean, axis=1)
             df[f"{sample}_stdev"] = df_new.apply(np.std, axis=1)
@@ -201,7 +202,7 @@ def Plotting3(df: pd.DataFrame, SampleList: list[str], SampleFormatting: dict):
         ax.fill_between(x, df[f'{s}_ci-lower'], df[f'{s}_ci-upper'], color=SampleFormatting[s]["color"], alpha=.15)
     ## format the plot
     ax.set_xlim(400,750) 
-    ax.set_ylim(ymin=0, ymax=1.1) # to give all plots the same y axis
+    #ax.set_ylim(ymin=0, ymax=1.1) # to give all plots the same y axis
     ax.set_xlabel("Wavelength (nm)")                                 
     ax.set_ylabel(r"$A_{750 nm}$")
     #ax.set_xticklabels(x, fontsize=12)
@@ -253,4 +254,4 @@ def GrowthCurveTechRep(df, SampleList, SampleFormatting: dict):
     ax.set_title('Growth Curve')
     ax.legend(loc="upper left")
 
-    return fig
+    return fig, ax
