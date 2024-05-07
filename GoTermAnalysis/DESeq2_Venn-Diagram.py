@@ -58,7 +58,7 @@ input_files = [ColdEnriched_Rbp1_file, ColdEnriched_GFP_file, Rbp1Bound_file]
 
 ## dfs we are working with
 LfcRbp1 = 2.5
-LfcGFP = 2.5
+LfcGFP = 0.1
 LfcMultilevel = 2.5
 padjRbp1 = 0.0000000001
 padjGFP = 0.001
