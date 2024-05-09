@@ -166,7 +166,7 @@ def Plotting2(Data, Sample, Normalized=1):
     
     return plt
 
-def Plotting3(df: pd.DataFrame, filename: str, samples: list[str], NbOfReps: int, tag: str):
+def Plotting3(df, filename: str, tag: str):
     """
     plotting one plot per timepoint containing all samples with technical replicates
 
@@ -176,19 +176,6 @@ def Plotting3(df: pd.DataFrame, filename: str, samples: list[str], NbOfReps: int
     NbOfReps: number of replicates for each sample (sample1_1, sample1_2, ...sample1_n, sample2_1, ..., sampleN_n)
     tag: GFP or FLAG, for the color of the plot
     """
-
-    # statistics: compute mean, standard deviation and confidence interval
-    for sample in samples:
-        triplicates = []
-        for rep in range(NbOfReps):
-            triplicates.append(f"{sample}_{rep+1}_Normalized")
-        df_new = df[triplicates]
-        df[f"{sample}_mean"] = df_new.apply(np.mean, axis=1)
-        df[f"{sample}_stdev"] = df_new.apply(np.std, axis=1)
-        # confidence interval: https://www.pythoncharts.com/python/line-chart-with-confidence-interval/
-        df[f"{sample}_ci"] = 1.96 * df[f"{sample}_stdev"] / np.sqrt(NbOfReps) # where does 1.96 come from???
-        df[f"{sample}_ci-lower"] = df[f"{sample}_mean"] - df[f"{sample}_ci"]
-        df[f"{sample}_ci-upper"] = df[f"{sample}_mean"] + df[f"{sample}_ci"]
     
     if tag == "GFP":
         # plot the mean with the confidence interval

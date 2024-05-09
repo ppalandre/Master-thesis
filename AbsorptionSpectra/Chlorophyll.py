@@ -4,8 +4,8 @@ import os
 import absorption as abs
 import samples
 
-#working_directory = "./Chlorophyll_20degrees_75uE_FLAG_KW16" #FLAG
-working_directory = "./Chlorophyll_20degrees_75uE_KW11" #GFP
+working_directory = "./Chlorophyll_20degrees_75uE_FLAG_KW16" #FLAG
+#working_directory = "./Chlorophyll_20degrees_75uE_KW11" #GFP
 
 # load data
 
@@ -22,8 +22,8 @@ a750_df = f"../growth_curves/A750_{a750_df}.csv"
 a750_df = pd.read_csv(a750_df, sep="\t")
 
 
-#samps = ["WT", "delta-rbp1 #6", "RBP1-FLAG #6.6"] #FLAG
-samps = ["WT", "delta-rbp1 #4", "delta-rbp1 #6", "RBP1-GFP #4", "RBP1-GFP #11"] #GFP
+samps = ["WT", "delta-rbp1 #6", "RBP1-FLAG #6.6"] #FLAG
+#samps = ["WT", "delta-rbp1 #4", "delta-rbp1 #6", "RBP1-GFP #4", "RBP1-GFP #11"] #GFP
 NbOfReps = 3
 
 data = rawdata.copy()
@@ -57,10 +57,10 @@ for filename in formatted_data:
 # statistics and plot
 chlorophyll_peaks = pd.DataFrame.from_dict(chlorophyll_peaks)
 chlorophyll_peaks = abs.Statistics(chlorophyll_peaks, samps, NbOfReps)
-samps = ["WT", "delta-rbp1 #4", "RBP1-GFP #4"] # we don't want to plot all samples for GFP
+#samps = ["WT", "delta-rbp1 #4", "RBP1-GFP #4"] # we don't want to plot all samples for GFP
 fig, ax = abs.GrowthCurveTechRep(chlorophyll_peaks, samps, samples.samples)
 ax.set_ylabel("Chlorophyll a (µM/OD)")
-ax.set_ylim(0,50)
+ax.set_ylim(1.5,6)
 ax.legend(loc="upper right")
 fig.savefig("Absolute chlorophyll a content.jpg", dpi=300)
 
