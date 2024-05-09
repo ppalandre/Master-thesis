@@ -49,14 +49,14 @@ def Normalize(Abs, Spectrum, Sample, norm="750"):
 
     else:     
         Abs_750nm = Spectrum[Sample][750.0]                              # get absorbance at 750 nm for the sample
-        Abs_phycobillisome = Spectrum[Sample].loc[600.0:650.0].max()     # get maximum of the phycobillisome peak (600-650 nm)
-        Abs_custom = Spectrum[Sample][751.0] 
+        Abs_phycobillisome = Spectrum[Sample].loc[600.0:650.0].max()     # get maximum of the phycobillisome peak (600-650 nm) 
 
         if norm=="750":
             return (Abs - Abs_750nm) / (Abs_750nm)                          # normalization over 750 nm peak (quantity of cells)
         elif norm=="PCA":
             return (Abs - Abs_750nm) / (Abs_phycobillisome - Abs_750nm)     # normalization over 750 nm peak and phycobillin peak
         elif norm=="custom":
+            Abs_custom = Spectrum[Sample][751.0]
             return (Abs - Abs_custom) / (Abs_custom)
     
 
