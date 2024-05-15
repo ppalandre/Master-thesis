@@ -60,7 +60,7 @@ print(ratios)
 
 # plot the ratios
 
-sns.set(style="whitegrid")
+sns.set(style="whitegrid", font_scale=1.2)
 sns_plot = sns.barplot(x="Timepoint", y="Ratio", hue="Sample", data=ratios, capsize=.1, errorbar="sd", palette=['grey', '#c43e96', "#317ec2", "#5cb56f"])
 sns_plot.set_ylim(0.9, 1.05)
 #sns_plot.legend(labels=['WT', 'delta rbp1', 'Rbp1-FLAG', "Rbp1-GFP"])
