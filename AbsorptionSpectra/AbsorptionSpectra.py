@@ -46,8 +46,13 @@ rawdataGFP =  pd.read_csv(fileGFP, sep=";")
 rawdataGFP = abs.FormatDataframe(rawdataGFP)
 formatted_data = pd.concat([rawdataFLAG, rawdataGFP], axis=1)
 ## normalization (here we directly replace the value in the column by the normalized value without generating a new column to store the normalized values)
-#for sample in formatted_data:
- #   formatted_data[sample] = formatted_data[sample].apply(lambda row: abs.Normalize(row, formatted_data, sample, norm="750")) # applies the function Normalize to each row of the dataframe and stores it in new column
+def Norm(A, A750):                          # define function which for each absorption A returns the absorption normalized after the absorption at 750 nm, A750
+    return (A - A750) / (A750)
+A750 = list(formatted_data.loc[750.0])      # get list of all A750
+for ind in formatted_data.index:            # for each row of the dataframe, get the absorption A, then apply the function Norm, then replace the row by the result of the normalization
+    A = list(formatted_data.loc[ind])
+    A = list(map(Norm, A, A750))
+    formatted_data.loc[ind] = A
 ## renaming columns so all replicates have the same name: drop the _1/2/3 and the #{strain number} in sample names
 for sample in formatted_data:
     formatted_data = formatted_data.rename(columns={sample: sample.split("_")[0].split(" #")[0]})

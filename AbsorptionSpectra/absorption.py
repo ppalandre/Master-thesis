@@ -45,11 +45,11 @@ def Normalize(Abs, Spectrum, Sample, norm="750"):
                        which are normalized against the cell density (used to plot the growth curves)
     """
     if norm=="nope":
-        return Abs                                                      # no normalization
+        return Abs                                                          # no normalization
 
     else:     
-        Abs_750nm = Spectrum[Sample][750.0]                              # get absorbance at 750 nm for the sample
-        Abs_phycobillisome = Spectrum[Sample].loc[600.0:650.0].max()     # get maximum of the phycobillisome peak (600-650 nm) 
+        Abs_750nm = Spectrum[Sample].loc[750.0]                             # get absorbance at 750 nm for the sample
+        Abs_phycobillisome = Spectrum[Sample].loc[600.0:650.0].max()        # get maximum of the phycobillisome peak (600-650 nm) 
 
         if norm=="750":
             return (Abs - Abs_750nm) / (Abs_750nm)                          # normalization over 750 nm peak (quantity of cells)
