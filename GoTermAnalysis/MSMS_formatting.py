@@ -78,26 +78,26 @@ MSMSdf_cold = MSMSdf_cold.rename({"log2_ratio_Rbp1_cold": "log2FoldChange",
 MSMSdf_standard = MSFileFormatting(MSMSdf_standard)[0]
 MSMSdf_standard_GOinput = MSFileFormatting(MSMSdf_standard)[1]
 MSMSdf_cold = MSFileFormatting(MSMSdf_cold)[0]
-MSMSdf_cold_GOinput = MSFileFormatting(MSMSdf_standard)[1]
+MSMSdf_cold_GOinput = MSFileFormatting(MSMSdf_cold)[1]
 
 ## save the results
-#MSMSdf_standard_GOinput.to_csv("msms_standard.txt", sep="\t")
-#MSMSdf_cold_GOinput.to_csv("msms_cold.txt", sep="\t")
+MSMSdf_standard_GOinput.to_csv("msms_standard.log", sep="\t")
+MSMSdf_cold_GOinput.to_csv("msms_cold.log", sep="\t")
 
 # replace UniProt IDs by corresponding gene locus tag
-mapping_df = pd.read_csv("../../INPUT2_GO-mapping/output_symbols_PHILLIPP.log", sep="\t")
+#mapping_df = pd.read_csv("../../INPUT2_GO-mapping/output_symbols_PHILLIPP.log", sep="\t")
 #mapping_df = mapping_df.dropna()
-mapping_df["UniProt"] = mapping_df["UniProt"].str.split(";")
-mapping_df = mapping_df.explode("UniProt")
-mapping_df = mapping_df.set_index("UniProt")
-mapping_df = mapping_df.to_dict()
+#mapping_df["UniProt"] = mapping_df["UniProt"].str.split(";")
+#mapping_df = mapping_df.explode("UniProt")
+#mapping_df = mapping_df.set_index("UniProt")
+#mapping_df = mapping_df.to_dict()
 
-for i in MSMSdf_cold_GOinput["Uniprot IDs"]:
-    try:
-        MSMSdf_cold_GOinput = MSMSdf_cold_GOinput.replace(i, mapping_df["locus_tag"][i])
-    except:
-        MSMSdf_cold_GOinput = MSMSdf_cold_GOinput.replace(i, np.nan)
+#for i in MSMSdf_cold_GOinput["Uniprot IDs"]:
+#    try:
+ #       MSMSdf_cold_GOinput = MSMSdf_cold_GOinput.replace(i, mapping_df["locus_tag"][i])
+ #   except:
+ #       MSMSdf_cold_GOinput = MSMSdf_cold_GOinput.replace(i, np.nan)
 
-MSMSdf_cold_GOinput = MSMSdf_cold_GOinput.sort_values("log2FoldChange", ascending=False)
+#MSMSdf_cold_GOinput = MSMSdf_cold_GOinput.sort_values("log2FoldChange", ascending=False)
 
-MSMSdf_cold_GOinput.to_csv("test.log", sep="\t")
+#MSMSdf_cold_GOinput.to_csv("test.log", sep="\t")
