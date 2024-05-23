@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 26}) # define font size for whole plot
 
 # load data
 file = "./INPUT1_DESeq2_Results/multilevel/cold GFP invsout - Rbp1 invsout_EVERYTHING.log"
@@ -29,7 +30,7 @@ y_anno = [0.297443, 128.877960]
 
 #print(x_anno)
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(12,10))
 ax.scatter(lfc_sig, log10padj_sig, c="#07bcc5", alpha=0.35)                           # alpha is for transparency
 ax.scatter(lfc_nonsig, log10padj_nonsig, c="grey", alpha=0.35)                        # alpha is for transparency
 ax.axhline(y=-np.log10(padjCutoff), color='black', linestyle='dashed')                # add horizontal and vertical line to show cutoffs
